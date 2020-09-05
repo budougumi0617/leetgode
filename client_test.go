@@ -17,14 +17,8 @@ func TestLeetCode_GetQuestion(t *testing.T) {
 			name:      "GetQuestionSuccess",
 			titleSlug: "add-two-numbers",
 			want: &Question{
-				QuestionID:        "",
-				Content:           "",
-				Stats:             "",
-				CodeDefinition:    nil,
-				SampleTestCase:    "",
-				EnableRunCode:     false,
-				MetaData:          "",
-				TranslatedContent: nil,
+				Referer:    "https://leetcode.com/problems/add-two-numbers/description/",
+				QuestionID: "2",
 			}},
 	}
 	for _, tt := range tests {
@@ -38,7 +32,7 @@ func TestLeetCode_GetQuestion(t *testing.T) {
 			if err != nil {
 				t.Fatalf("GetQuestion faield: %v", err)
 			}
-			if diff := cmp.Diff(got, tt.want); diff != "" {
+			if diff := cmp.Diff(got.QuestionID, tt.want.QuestionID); diff != "" {
 				t.Errorf("GetQuestion: there is diff (-got +want)\n%s", diff)
 			}
 		})
