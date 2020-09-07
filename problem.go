@@ -27,7 +27,7 @@ type StatStatusPair struct {
 	Progress   int         `json:"progress"`
 }
 
-type DescriptionResult struct {
+type ProblemsResult struct {
 	UserName        string            `json:"user_name"`
 	NumSolved       int               `json:"num_solved"`
 	NumTotal        int               `json:"num_total"`

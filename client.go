@@ -108,7 +108,28 @@ query getQuestionDetail($titleSlug: String!) {
 // TODO: submitメソッドをつくる for exec
 
 // curl https://leetcode.com/api/problems/algorithms/
-// TODO: リストメソッドをつくる for list
+func (lc *LeetCode) GetProblems(ctx context.Context) (*ProblemsResult, error) {
+	cli := http.Client{
+		Timeout: 3 * time.Second,
+	}
+	ep := lc.BaseURL + "/api/problems/algorithms/"
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, ep, nil)
+	if err != nil {
+		return nil, err
+	}
+	res, err := cli.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	if res.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("GetProblems got status %d", res.StatusCode)
+	}
+	var pr ProblemsResult
+	if err := json.NewDecoder(res.Body).Decode(&pr); err != nil {
+		return nil, err
+	}
+	return &pr, nil
+}
 
 // TODO: testメソッドをつくる for test
 
