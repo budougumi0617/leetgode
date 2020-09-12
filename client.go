@@ -16,7 +16,7 @@ type LeetCode struct {
 
 type LCOp func(*LeetCode) error
 
-func NewLeetCode(ops []LCOp) (*LeetCode, error) {
+func NewLeetCode(ops ...LCOp) (*LeetCode, error) {
 	lc := &LeetCode{
 		BaseURL:     "https://leetcode.com",
 		gqlEndpoint: "https://leetcode.com/graphql",

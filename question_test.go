@@ -31,5 +31,4 @@ func TestGetQuestionDetailResult(t *testing.T) {
 	if len(got.Data.Question.CodeDefinition) == 0 {
 		t.Errorf("failed parse.")
 	}
-
 }

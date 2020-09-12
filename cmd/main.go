@@ -12,6 +12,7 @@ import (
 const (
 	LIST = "list"
 	PICK = "pick"
+	GENERATE = "generate"
 )
 
 func main() {
@@ -21,27 +22,32 @@ func main() {
 		fmt.Printf("TODO: show help\n")
 		return
 	}
-	cli, err := leetgode.NewLeetCode(nil)
+	cli, err := leetgode.NewLeetCode()
 	if err != nil {
 		fmt.Printf("failed client generation: %v\n", err)
 		os.Exit(1)
 	}
 	ctx := context.Background()
+	args := flag.Args()
+	if len(args) != 2 {
+		fmt.Printf("invalid sub command %q\n", args)
+		os.Exit(1)
+	}
 	switch sub {
 	case LIST:
 
 	case PICK:
-		args := flag.Args()
-		if len(args) != 2 {
-			fmt.Printf("invalid sub command %q\n", args)
-			os.Exit(1)
-		}
 		q, err := cli.GetQuestion(ctx, args[1])
 		if err != nil {
 			fmt.Printf("failed GetQuestion(%q): %v\n", args[1], err)
 			os.Exit(1)
 		}
 		fmt.Printf("result: %#v\n", q)
+	case GENERATE:
+		if err := leetgode.GenerateCmd(ctx, args[1]);err != nil {
+			fmt.Printf("failed GenerateCmd(ctx, %q): %v\n", args[1], err)
+			os.Exit(1)
+		}
 	default:
 		fmt.Printf("invalid sub command %q\n", sub)
 		os.Exit(1)
