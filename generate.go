@@ -33,9 +33,6 @@ package main
 {{.CodeDefinition.DefaultCode}}
 `
 
-// TODO: Goの関数定義を見つける
-// TODO: templateを作って文字列を作る
-// TODO: ファイルとして保存する
 func GenerateCmd(ctx context.Context, id string) error {
 	cli, err := NewLeetCode()
 	if err != nil {
@@ -71,6 +68,8 @@ func GenerateCmd(ctx context.Context, id string) error {
 		panic(err)
 	}
 	fmt.Printf("%s", buf.String())
+	// TODO: ファイル名を生成する
+	// TODO: どうやってファイル保存とテストしやすさを分けようか？
 	path := "tmp/hoge.go"
 	if err := ioutil.WriteFile(path, buf.Bytes(), 0644); err != nil {
 		return err
@@ -79,7 +78,9 @@ func GenerateCmd(ctx context.Context, id string) error {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("%q\n", tess[0].Path)
+	if len(tess) == 0 {
+		return fmt.Errorf("failed to generate test")
+	}
 	if err := ioutil.WriteFile(tess[0].Path, tess[0].Output, 0644); err != nil {
 		return err
 	}
