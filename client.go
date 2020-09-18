@@ -50,6 +50,22 @@ type GetQuestionResponse struct {
 	Data GetQuestionResponseData `json:"data"`
 }
 
+func (lc *LeetCode) GetQuestionByID(ctx context.Context, id int) (*Question, error) {
+	ss, err := lc.GetStats(ctx)
+	if err != nil {
+		return nil, err
+	}
+	s, ok := ss[id]
+	if !ok {
+		return nil, err
+	}
+	q, err := lc.GetQuestion(ctx, s.QuestionTitleSlug)
+	if err != nil {
+		return nil, err
+	}
+	return q, nil
+}
+
 func (lc *LeetCode) GetQuestion(ctx context.Context, titleSlug string) (*Question, error) {
 	query := `
 query getQuestionDetail($titleSlug: String!) {
@@ -129,6 +145,18 @@ func (lc *LeetCode) GetProblems(ctx context.Context) (*ProblemsResult, error) {
 		return nil, err
 	}
 	return &pr, nil
+}
+
+func (lc *LeetCode) GetStats(ctx context.Context) (map[int]*Stat, error) {
+	ps, err := lc.GetProblems(ctx)
+	if err != nil {
+		return nil, err
+	}
+	ss := make(map[int]*Stat, ps.NumTotal)
+	for _, sp := range ps.StatStatusPairs {
+		ss[sp.Stat.QuestionID] = &sp.Stat
+	}
+	return ss, nil
 }
 
 // TODO: testメソッドをつくる for test
