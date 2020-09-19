@@ -44,7 +44,12 @@ func main() {
 		}
 		fmt.Printf("result: %#v\n", q)
 	case GENERATE:
-		if err := leetgode.GenerateCmd(ctx, args[1]);err != nil {
+		id, err := strconv.Atoi(args[1])
+		if err != nil || id == 0 {
+			fmt.Printf("cannot get id: %q\n", args[1])
+			os.Exit(1)
+		}
+		if err := leetgode.GenerateCmd(ctx, id); err != nil {
 			fmt.Printf("failed GenerateCmd(ctx, %q): %v\n", args[1], err)
 			os.Exit(1)
 		}

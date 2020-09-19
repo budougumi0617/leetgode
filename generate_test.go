@@ -8,10 +8,10 @@ import (
 func TestGenerateCmd(t *testing.T) {
 	tests := [...]struct {
 		name    string
-		id      string
+		id      int
 		wantErr bool
 	}{
-		{name: "SuccessGenerateFiles", id: "two-sum"},
+		{name: "SuccessGenerateFiles", id: 2},
 	}
 	for _, tt := range tests {
 		tt := tt

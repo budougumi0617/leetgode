@@ -15,6 +15,7 @@ type QdrData struct {
 }
 
 type Question struct {
+	Slug              string      `json:"-"`
 	Referer           string      `json:"-"`
 	QuestionID        string      `json:"questionId"`
 	Content           string      `json:"content"`

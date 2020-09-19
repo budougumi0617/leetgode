@@ -33,12 +33,12 @@ package main
 {{.CodeDefinition.DefaultCode}}
 `
 
-func GenerateCmd(ctx context.Context, id string) error {
+func GenerateCmd(ctx context.Context, id int) error {
 	cli, err := NewLeetCode()
 	if err != nil {
 		return err
 	}
-	q, err := cli.GetQuestion(ctx, id)
+	q, err := cli.GetQuestionByID(ctx, id)
 	if err != nil {
 		return err
 	}

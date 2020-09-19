@@ -117,6 +117,7 @@ query getQuestionDetail($titleSlug: String!) {
 	if err := json.NewDecoder(res.Body).Decode(&result); err != nil {
 		return nil, err
 	}
+	q.Slug = titleSlug
 	q.Referer = referer
 	return &q, nil
 }
