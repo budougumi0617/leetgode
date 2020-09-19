@@ -59,7 +59,7 @@ func (lc *LeetCode) GetQuestionByID(ctx context.Context, id int) (*Question, err
 	if !ok {
 		return nil, err
 	}
-	q, err := lc.GetQuestion(ctx, s.QuestionTitleSlug)
+	q, err := lc.GetQuestion(ctx, s.Stat.QuestionTitleSlug)
 	if err != nil {
 		return nil, err
 	}
@@ -148,14 +148,14 @@ func (lc *LeetCode) GetProblems(ctx context.Context) (*ProblemsResult, error) {
 	return &pr, nil
 }
 
-func (lc *LeetCode) GetStats(ctx context.Context) (map[int]*Stat, error) {
+func (lc *LeetCode) GetStats(ctx context.Context) (map[int]*StatStatusPair, error) {
 	ps, err := lc.GetProblems(ctx)
 	if err != nil {
 		return nil, err
 	}
-	ss := make(map[int]*Stat, ps.NumTotal)
+	ss := make(map[int]*StatStatusPair, ps.NumTotal)
 	for _, sp := range ps.StatStatusPairs {
-		ss[sp.Stat.QuestionID] = &sp.Stat
+		ss[sp.Stat.QuestionID] = sp
 	}
 	return ss, nil
 }
