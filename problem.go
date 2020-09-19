@@ -13,8 +13,29 @@ type Stat struct {
 	IsNewQuestion       bool        `json:"is_new_question"`
 }
 
+type Level int
+
+func (l Level) String() string {
+	switch l {
+	case Easy:
+		return "Easy"
+	case Medium:
+		return "Medium"
+	case Hard:
+		return "Hard"
+	default:
+		return "Unknown"
+	}
+}
+
+const (
+	Easy   Level = 1
+	Medium       = 2
+	Hard         = 3
+)
+
 type Difficulty struct {
-	Level int `json:"level"`
+	Level Level `json:"level"`
 }
 
 type StatStatusPair struct {
