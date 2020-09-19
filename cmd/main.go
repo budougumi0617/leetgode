@@ -35,17 +35,12 @@ func main() {
 		os.Exit(1)
 	}
 	switch sub {
-	// TODO: rustのCLIはこういうフォーマット
-	// ログインしていないと、解答済みかわからない。
-	//✔ [  1 ] Two Sum                                                      Easy   (45.52 %)
-	//[  2 ] Add Two Numbers                                              Medium (33.63 %)
-	//[  3 ] Longest Substring Without Repeating Characters               Medium (30.24 %)
-	//[  4 ] Median of Two Sorted Arrays                                  Hard   (29.34 %)
-	//[  5 ] Longest Palindromic Substring                                Medium (29.33 %)
-	//[  6 ] ZigZag Conversion                                            Medium (35.98 %)
-	//✔ [  7 ] Reverse Integer                                              Easy   (25.77 %)
 	case LIST:
-
+		if err := leetgode.ListCmd(ctx); err != nil {
+			// TODO: ソートする！！
+			fmt.Printf("failed ListCmd: %v\n", err)
+			os.Exit(1)
+		}
 	case PICK:
 		id, err := strconv.Atoi(args[1])
 		if err != nil || id == 0 {
