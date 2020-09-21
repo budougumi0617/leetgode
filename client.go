@@ -55,11 +55,17 @@ func (lc *LeetCode) GetQuestionByID(ctx context.Context, id int) (*Question, err
 	if err != nil {
 		return nil, err
 	}
-	s, ok := ss[id]
-	if !ok {
-		return nil, err
+	var pair *StatStatusPair
+	for _, p := range ss {
+		if p.Stat.QuestionID == id {
+			pair = p
+		}
 	}
-	q, err := lc.GetQuestion(ctx, s.Stat.QuestionTitleSlug)
+	if pair == nil {
+		return nil, fmt.Errorf("cannot find problem")
+	}
+
+	q, err := lc.GetQuestion(ctx, pair.Stat.QuestionTitleSlug)
 	if err != nil {
 		return nil, err
 	}
@@ -148,16 +154,13 @@ func (lc *LeetCode) GetProblems(ctx context.Context) (*ProblemsResult, error) {
 	return &pr, nil
 }
 
-func (lc *LeetCode) GetStats(ctx context.Context) (map[int]*StatStatusPair, error) {
+func (lc *LeetCode) GetStats(ctx context.Context) ([]*StatStatusPair, error) {
 	ps, err := lc.GetProblems(ctx)
 	if err != nil {
 		return nil, err
 	}
-	ss := make(map[int]*StatStatusPair, ps.NumTotal)
-	for _, sp := range ps.StatStatusPairs {
-		ss[sp.Stat.QuestionID] = sp
-	}
-	return ss, nil
+
+	return ps.StatStatusPairs, nil
 }
 
 // TODO: testメソッドをつくる for test
