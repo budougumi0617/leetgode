@@ -14,6 +14,8 @@ const (
 	LIST     = "list"
 	PICK     = "pick"
 	GENERATE = "generate"
+	TEST     = "test"
+	EXEC     = "exec"
 )
 
 func main() {
@@ -37,7 +39,6 @@ func main() {
 	switch sub {
 	case LIST:
 		if err := leetgode.ListCmd(ctx); err != nil {
-			// TODO: ソートする！！
 			fmt.Printf("failed ListCmd: %v\n", err)
 			os.Exit(1)
 		}
@@ -63,6 +64,10 @@ func main() {
 			fmt.Printf("failed GenerateCmd(ctx, %q): %v\n", args[1], err)
 			os.Exit(1)
 		}
+	// test    Test question by id [aliases: t]
+	case TEST:
+	// 	exec    Submit solution [aliases: x]
+	case EXEC:
 	default:
 		fmt.Printf("invalid sub command %q\n", sub)
 		os.Exit(1)
