@@ -32,6 +32,7 @@ func main() {
 	}
 	ctx := context.Background()
 	args := flag.Args()
+	// FIXME: confirm each command condition
 	if len(args) != 2 {
 		fmt.Printf("invalid sub command %q\n", args)
 		os.Exit(1)
@@ -66,8 +67,28 @@ func main() {
 		}
 	// test    Test question by id [aliases: t]
 	case TEST:
+		id, err := strconv.Atoi(args[1])
+		if err != nil || id == 0 {
+			fmt.Printf("cannot get id: %q\n", args[1])
+			os.Exit(1)
+		}
+		// TODO: Get auth information
+		if err := leetgode.TestCmd(ctx, id); err != nil {
+			fmt.Printf("failed TestCmd(ctx, %q): %v\n", args[1], err)
+			os.Exit(1)
+		}
 	// 	exec    Submit solution [aliases: x]
 	case EXEC:
+		id, err := strconv.Atoi(args[1])
+		if err != nil || id == 0 {
+			fmt.Printf("cannot get id: %q\n", args[1])
+			os.Exit(1)
+		}
+		// TODO: Get auth information
+		if err := leetgode.ExecCmd(ctx, id); err != nil {
+			fmt.Printf("failed ExecCmd(ctx, %q): %v\n", args[1], err)
+			os.Exit(1)
+		}
 	default:
 		fmt.Printf("invalid sub command %q\n", sub)
 		os.Exit(1)
