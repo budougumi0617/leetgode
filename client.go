@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 )
@@ -178,8 +179,42 @@ func (lc *LeetCode) fill(req *http.Request, q *Question) {
 	// Need to set referer
 }
 
+func (lc *LeetCode) Test(ctx context.Context, q *Question, ans string) (string, error) {
+	sr := &SolutionRequest{
+		Lang:       "golang",
+		QuestionID: q.QuestionID,
+		TestMode:   "false",
+		Name:       q.Slug,
+		DataInput:  q.SampleTestCase,
+		TypedCode:  ans,
 	}
-	req.AddCookie(c)
+	b, err := json.Marshal(sr)
+	if err != nil {
+		log.Printf("failed Marshal %+v\n", err)
+		return "", err
+	}
+	url := lc.BaseURL + fmt.Sprintf("/problems/%s/interpret_solution/", q.Slug)
+	log.Printf("send to %q", url)
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewBuffer(b))
+	if err != nil {
+		return "", err
+	}
+	lc.fill(req, q)
+	req.Header.Set("Referer", url)
+	cli := http.Client{
+		Timeout: 3 * time.Second,
+	}
+	resp, err := cli.Do(req)
+	if err != nil {
+		log.Printf("failed Do %+v\n", err)
+		return "", err
+	}
+	var res SolutionResult
+	if err := json.NewDecoder(resp.Body).Decode(&res); err != nil {
+		return "", err
+	}
+	log.Printf("result %+v\n", res)
+	return res.InterpretID, nil
 }
 
 // TODO: testメソッドをつくる for test

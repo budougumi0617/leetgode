@@ -3,11 +3,12 @@ package leetgode
 // SolutionRequest is the parameters for below URL.
 // https://leetcode.com/problems/${title_slug}/interpret_solution/
 type SolutionRequest struct {
-	Lang       string `json:"lang"`
+	Lang       string `json:"lang"` // golang
 	QuestionID string `json:"question_id"`
-	TestMode   string `json:"test_mode"`
+	TestMode   string `json:"test_mode"` // false
 	Name       string `json:"name"`
-	TypedCode  string `json:"typed_code"`
+	DataInput  string `json:"data_input"` // ex: "[2,7,11,15]\n9", load from Question.SampleTestCase
+	TypedCode  string `json:"typed_code"` // load from file
 }
 
 // SolutionResult is the response from below URL.
