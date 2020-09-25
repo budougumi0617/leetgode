@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -239,6 +240,43 @@ func (lc *LeetCode) Check(ctx context.Context, q *Question, id string) (*CheckRe
 	}
 	log.Printf("result %+v\n", res)
 	return &res, nil
+}
+
+func (lc *LeetCode) Submit(ctx context.Context, q *Question, ans string) (string, error) {
+	sr := &SubmitRequest{
+		Lang:       "golang",
+		QuestionID: q.QuestionID,
+		TestMode:   "false",
+		Name:       q.Slug,
+		TypedCode:  ans,
+	}
+	b, err := json.Marshal(sr)
+	if err != nil {
+		log.Printf("failed Marshal %+v\n", err)
+		return "", err
+	}
+	surl := lc.BaseURL + fmt.Sprintf("/problems/%s/submit/", q.Slug)
+	log.Printf("send to %q", surl)
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, surl, bytes.NewBuffer(b))
+	if err != nil {
+		return "", err
+	}
+	lc.fill(req, q)
+	req.Header.Set("Referer", surl)
+	cli := http.Client{
+		Timeout: 3 * time.Second,
+	}
+	resp, err := cli.Do(req)
+	if err != nil {
+		log.Printf("failed Do %+v\n", err)
+		return "", err
+	}
+	var res SubmitResult
+	if err := json.NewDecoder(resp.Body).Decode(&res); err != nil {
+		return "", err
+	}
+	log.Printf("result %+v\n", res)
+	return strconv.Itoa(res.SubmissionID), nil
 }
 
 //SUBCOMMANDS:
