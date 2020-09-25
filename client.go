@@ -193,14 +193,14 @@ func (lc *LeetCode) Test(ctx context.Context, q *Question, ans string) (string, 
 		log.Printf("failed Marshal %+v\n", err)
 		return "", err
 	}
-	url := lc.BaseURL + fmt.Sprintf("/problems/%s/interpret_solution/", q.Slug)
-	log.Printf("send to %q", url)
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewBuffer(b))
+	surl := lc.BaseURL + fmt.Sprintf("/problems/%s/interpret_solution/", q.Slug)
+	log.Printf("send to %q", surl)
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, surl, bytes.NewBuffer(b))
 	if err != nil {
 		return "", err
 	}
 	lc.fill(req, q)
-	req.Header.Set("Referer", url)
+	req.Header.Set("Referer", surl)
 	cli := http.Client{
 		Timeout: 3 * time.Second,
 	}
@@ -217,7 +217,29 @@ func (lc *LeetCode) Test(ctx context.Context, q *Question, ans string) (string, 
 	return res.InterpretID, nil
 }
 
-// TODO: testメソッドをつくる for test
+func (lc *LeetCode) Check(ctx context.Context, q *Question, id string) (*CheckResult, error) {
+	curl := lc.BaseURL + fmt.Sprintf("/submissions/detail/%s/check/", id)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, curl, nil)
+	if err != nil {
+		return nil, err
+	}
+	lc.fill(req, q)
+	req.Header.Set("Referer", curl)
+	cli := http.Client{
+		Timeout: 3 * time.Second,
+	}
+	resp, err := cli.Do(req)
+	if err != nil {
+		log.Printf("failed Do %+v\n", err)
+		return nil, err
+	}
+	var res CheckResult
+	if err := json.NewDecoder(resp.Body).Decode(&res); err != nil {
+		return nil, err
+	}
+	log.Printf("result %+v\n", res)
+	return &res, nil
+}
 
 //SUBCOMMANDS:
 //data    Manage Cache [aliases: d]
