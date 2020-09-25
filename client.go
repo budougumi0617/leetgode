@@ -174,14 +174,10 @@ func (lc *LeetCode) fill(req *http.Request, q *Question) {
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Cache-Control", "no-cache")
 	req.Header.Set("X-CsrfToken", lc.token)
+	req.Header.Set("Cookie", fmt.Sprintf("LEETCODE_SESSION=%s; csrftoken=%s", lc.session, lc.token))
 	// Need to set referer
+}
 
-	c := &http.Cookie{
-		Name:    "csrftoken",
-		Value:   fmt.Sprintf("LEETCODE_SESSION=%s; csrftoken=%s", lc.session, lc.token),
-		Path:    "/",
-		Domain:  ".leetcode.com",
-		Expires: time.Now(),
 	}
 	req.AddCookie(c)
 }
