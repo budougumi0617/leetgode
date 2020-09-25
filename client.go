@@ -10,8 +10,9 @@ import (
 )
 
 type LeetCode struct {
-	BaseURL     string
-	gqlEndpoint string
+	BaseURL        string
+	gqlEndpoint    string
+	session, token string
 }
 
 type LCOp func(*LeetCode) error
@@ -29,7 +30,13 @@ func NewLeetCode(ops ...LCOp) (*LeetCode, error) {
 	return lc, nil
 }
 
-// TODO: クライアントを作る
+func fillAuth(session, token string) func(lc *LeetCode) error {
+	return func(lc *LeetCode) error {
+		lc.session = session
+		lc.token = token
+		return nil
+	}
+}
 
 // TODO: 共通メソッドとしてヘッダーを生成するメソッドをつくる
 // TODO: オプションで外部からURLを変更できるようにする
@@ -161,6 +168,22 @@ func (lc *LeetCode) GetStats(ctx context.Context) ([]*StatStatusPair, error) {
 	}
 
 	return ps.StatStatusPairs, nil
+}
+
+func (lc *LeetCode) fill(req *http.Request, q *Question) {
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Cache-Control", "no-cache")
+	req.Header.Set("X-CsrfToken", lc.token)
+	// Need to set referer
+
+	c := &http.Cookie{
+		Name:    "csrftoken",
+		Value:   fmt.Sprintf("LEETCODE_SESSION=%s; csrftoken=%s", lc.session, lc.token),
+		Path:    "/",
+		Domain:  ".leetcode.com",
+		Expires: time.Now(),
+	}
+	req.AddCookie(c)
 }
 
 // TODO: testメソッドをつくる for test
