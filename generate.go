@@ -68,9 +68,9 @@ func GenerateCmd(ctx context.Context, id int) error {
 		panic(err)
 	}
 	fmt.Printf("%s", buf.String())
-	format := "tmp/%s.%s.go"
+
 	// TODO: どうやってファイル保存とテストしやすさを分けようか？
-	path := fmt.Sprintf(format, q.QuestionID, q.Slug)
+	path := buildPath(q.QuestionID, q.Slug)
 	fmt.Printf("save at %q\n", path)
 	if err := ioutil.WriteFile(path, buf.Bytes(), 0644); err != nil {
 		return err
