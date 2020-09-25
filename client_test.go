@@ -99,7 +99,7 @@ func TestLeetCode_GetQuestionByID(t *testing.T) {
 	}
 }
 
-func Test(t *testing.T) {
+func TestTest(t *testing.T) {
 	t.Parallel()
 	type args struct {
 		q   *Question
