@@ -100,6 +100,7 @@ func TestLeetCode_GetQuestionByID(t *testing.T) {
 }
 
 func TestTest(t *testing.T) {
+	t.SkipNow()
 	t.Parallel()
 	type args struct {
 		q   *Question
@@ -130,6 +131,8 @@ func TestTest(t *testing.T) {
 			lc := &LeetCode{
 				BaseURL:     "https://leetcode.com",
 				gqlEndpoint: "https://leetcode.com/graphql",
+				session:     "",
+				token:       "",
 			}
 			got, err := lc.Test(context.TODO(), tt.args.q, tt.args.ans)
 			if err != nil {
