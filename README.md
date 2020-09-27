@@ -9,10 +9,20 @@ leetgode
 ## Description
 LeetCode CLI for Gophers.
 
-## Demo & VS.
+## VS.
 
 
 ## Requirement
+The leetgode CLI needs the authorization to execute some sub commands. Specifically, it needs `LEETCODE_SESSION`, and `csrftoken`.
+
+1. Open chrome and paste the link below to the chrome linkbar.
+    - `chrome://settings/cookies/detail?site=leetcode.com`
+1. Copy the contents of `LEETCODE_SESSION`, and `csrftoken`.
+1. Export below environment values by the use of `LEETCODE_SESSION`, and `csrftoken`.
+```bash
+export LEETCODE_SESSION=${LEETCODE_SESSION}
+export LEETCODE_TOKEN=${csrftoken}
+```
 
 
 ## Usage
