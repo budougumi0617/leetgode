@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
+	"strconv"
 	"text/template"
 
 	"github.com/cweill/gotests"
@@ -33,7 +34,24 @@ package main
 {{.CodeDefinition.DefaultCode}}
 `
 
-func GenerateCmd(ctx context.Context, id int) error {
+var _ Cmd = &GenerateCmd{}
+
+type GenerateCmd struct{}
+
+func (g *GenerateCmd) MaxArg() int {
+	return 2
+}
+
+func (g *GenerateCmd) Usage() string {
+	return "Generate the skeleton code with the test file by id"
+}
+
+func (g *GenerateCmd) Run(ctx context.Context, args []string) error {
+	id, err := strconv.Atoi(args[1])
+	if err != nil {
+		return err
+	}
+
 	cli, err := NewLeetCode()
 	if err != nil {
 		return err

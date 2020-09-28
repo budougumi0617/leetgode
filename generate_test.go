@@ -8,14 +8,15 @@ import (
 func TestGenerateCmd(t *testing.T) {
 	tests := [...]struct {
 		name string
-		id   int
+		args []string
 	}{
-		{name: "SuccessGenerateFiles", id: 1},
+		{name: "SuccessGenerateFiles", args: []string{"1"}},
 	}
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
-			if err := GenerateCmd(context.TODO(), tt.id); err != nil {
+			cmd := &GenerateCmd{}
+			if err := cmd.Run(context.TODO(), tt.args); err != nil {
 				t.Errorf("GenerateCmd() error = %v", err)
 			}
 		})

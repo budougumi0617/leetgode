@@ -10,14 +10,6 @@ import (
 	"github.com/budougumi/leetgode"
 )
 
-const (
-	LIST     = "list"
-	PICK     = "pick"
-	GENERATE = "generate"
-	TEST     = "test"
-	EXEC     = "exec"
-)
-
 func main() {
 	flag.Parse()
 	sub := flag.Arg(0)
@@ -32,11 +24,7 @@ func main() {
 	}
 	ctx := context.Background()
 	args := flag.Args()
-	// FIXME: confirm each command condition
-	if len(args) != 2 {
-		fmt.Printf("invalid sub command %q\n", args)
-		os.Exit(1)
-	}
+
 	switch sub {
 	case LIST:
 		if err := leetgode.ListCmd(ctx); err != nil {
