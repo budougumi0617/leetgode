@@ -39,7 +39,7 @@ var _ Cmd = &GenerateCmd{}
 type GenerateCmd struct{}
 
 func (g *GenerateCmd) MaxArg() int {
-	return 2
+	return 1
 }
 
 func (g *GenerateCmd) Usage() string {

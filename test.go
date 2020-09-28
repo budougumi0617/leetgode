@@ -5,9 +5,26 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strconv"
 )
 
-func TestCmd(ctx context.Context, id int) error {
+var _ Cmd = &TestCmd{}
+
+type TestCmd struct{}
+
+func (c *TestCmd) MaxArg() int {
+	return 1
+}
+
+func (c *TestCmd) Usage() string {
+	return "submit codes and "
+}
+
+func (c *TestCmd) Run(ctx context.Context, args []string) error {
+	id, err := strconv.Atoi(args[0])
+	if err != nil {
+		return err
+	}
 	session := os.Getenv("LEETCODE_SESSION")
 	token := os.Getenv("LEETCODE_TOKEN")
 
