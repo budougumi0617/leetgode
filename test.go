@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strconv"
+	"time"
 )
 
 var _ Cmd = &TestCmd{}
@@ -49,12 +50,13 @@ func (c *TestCmd) Run(ctx context.Context, args []string) error {
 	if err != nil {
 		return err
 	}
+	fmt.Print("now sending")
 	for {
-		fmt.Print("now sending")
 		res, err := cli.Check(ctx, q, tr)
 		if err != nil {
 			return err
 		}
+		// FIXME: pretty print
 		if res.State == "SUCCESS" {
 			fmt.Printf(`
 test id: %s
@@ -65,6 +67,7 @@ result: %s
 		} else {
 			fmt.Print(".")
 		}
+		time.Sleep(1 * time.Second)
 	}
 	return nil
 }

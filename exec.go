@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strconv"
+	"time"
 )
 
 var _ Cmd = &ExecCmd{}
@@ -49,8 +50,8 @@ func (c *ExecCmd) Run(ctx context.Context, args []string) error {
 	if err != nil {
 		return err
 	}
+	fmt.Print("now sending")
 	for {
-		fmt.Print("now sending")
 		res, err := cli.Check(ctx, q, tr)
 		if err != nil {
 			return err
@@ -65,6 +66,7 @@ result: %s
 		} else {
 			fmt.Print(".")
 		}
+		time.Sleep(1 * time.Second)
 	}
 	return nil
 }

@@ -6,6 +6,7 @@ import (
 )
 
 func TestGenerateCmd(t *testing.T) {
+	t.SkipNow()
 	tests := [...]struct {
 		name string
 		args []string

@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 
@@ -22,6 +23,8 @@ func main() {
 		fmt.Printf("TODO: show help\n")
 		return
 	}
+	// TODO: set os.Stderr if set debug mode
+	log.SetOutput(ioutil.Discard)
 
 	if cmd, ok := leetgode.CmdMap[leetgode.CmdName(sub)]; ok {
 		args := flag.Args()[1:]
