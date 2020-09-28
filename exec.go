@@ -25,6 +25,7 @@ func (c *ExecCmd) Usage() string {
 	return "Submit solution"
 }
 
+// TODO: refactoring exec and test.
 func (c *ExecCmd) Run(ctx context.Context, args []string) error {
 	id, err := strconv.Atoi(args[0])
 	if err != nil {
@@ -56,6 +57,7 @@ func (c *ExecCmd) Run(ctx context.Context, args []string) error {
 		if err != nil {
 			return err
 		}
+		// FIXME: pretty print
 		if res.State == "SUCCESS" {
 			fmt.Printf(`
 test id: %s

@@ -37,6 +37,8 @@ func (c *PickCmd) Run(ctx context.Context, args []string) error {
 	if err != nil {
 		return err
 	}
+
+	// FIXME: pretty print
 	fmt.Printf("result: %#v\n", q)
 
 	return nil
