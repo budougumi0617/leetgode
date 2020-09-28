@@ -23,5 +23,8 @@ func main() {
 			log.Printf("main: err %v", err)
 			os.Exit(1)
 		}
+	} else {
+		log.Printf("unknown command %q", sub)
+		os.Exit(1)
 	}
 }
