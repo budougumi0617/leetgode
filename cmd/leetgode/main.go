@@ -19,7 +19,12 @@ func main() {
 	}
 
 	if cmd, ok := leetgode.CmdMap[leetgode.CmdName(sub)]; ok {
-		if err := cmd.Run(context.Background(), flag.Args()[1:]); err != nil {
+		args := flag.Args()[1:]
+		if len(args) != cmd.MaxArg() {
+			fmt.Printf("%s expects %d options, but %d options\n", cmd.Name(), cmd.MaxArg(), len(args))
+			os.Exit(1)
+		}
+		if err := cmd.Run(context.Background(), args); err != nil {
 			log.Printf("main: err %v", err)
 			os.Exit(1)
 		}
