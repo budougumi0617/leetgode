@@ -38,6 +38,10 @@ var _ Cmd = &GenerateCmd{}
 
 type GenerateCmd struct{}
 
+func (c *GenerateCmd) Name() string {
+	return "generate"
+}
+
 func (g *GenerateCmd) MaxArg() int {
 	return 1
 }

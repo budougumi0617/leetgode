@@ -12,6 +12,10 @@ var _ Cmd = &ListCmd{}
 
 type ListCmd struct{}
 
+func (c *ListCmd) Name() string {
+	return "list"
+}
+
 func (c *ListCmd) MaxArg() int {
 	return 0
 }

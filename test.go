@@ -12,6 +12,10 @@ var _ Cmd = &TestCmd{}
 
 type TestCmd struct{}
 
+func (c *TestCmd) Name() string {
+	return "test"
+}
+
 func (c *TestCmd) MaxArg() int {
 	return 1
 }

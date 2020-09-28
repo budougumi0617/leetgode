@@ -12,6 +12,10 @@ var _ Cmd = &ExecCmd{}
 
 type ExecCmd struct{}
 
+func (c *ExecCmd) Name() string {
+	return "exec"
+}
+
 func (c *ExecCmd) MaxArg() int {
 	return 1
 }

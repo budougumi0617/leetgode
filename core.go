@@ -16,13 +16,14 @@ const (
 )
 
 type Cmd interface {
+	Name() string
 	Usage() string
 	MaxArg() int
 	Run(context.Context, []string) error
 }
 
 var CmdMap = map[CmdName]Cmd{
-	EXEC:     &GenerateCmd{},
+	EXEC:     &ExecCmd{},
 	LIST:     &ListCmd{},
 	GENERATE: &GenerateCmd{},
 	TEST:     &TestCmd{},

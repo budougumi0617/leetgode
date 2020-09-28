@@ -11,6 +11,10 @@ var _ Cmd = &PickCmd{}
 type PickCmd struct {
 }
 
+func (c *PickCmd) Name() string {
+	return "pick"
+}
+
 func (c *PickCmd) Usage() string {
 	return "Pick a problem by id"
 }
