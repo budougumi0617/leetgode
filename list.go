@@ -8,8 +8,19 @@ import (
 	"text/tabwriter"
 )
 
-// TODO: inject io.Writer for output
-func ListCmd(ctx context.Context) error {
+var _ Cmd = &ListCmd{}
+
+type ListCmd struct{}
+
+func (c *ListCmd) MaxArg() int {
+	return 0
+}
+
+func (c *ListCmd) Usage() string {
+	return "Generate the skeleton code with the test file by id"
+}
+
+func (c *ListCmd) Run(ctx context.Context, _ []string) error {
 	cli, err := NewLeetCode()
 	if err != nil {
 		return err
