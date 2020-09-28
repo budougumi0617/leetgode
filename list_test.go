@@ -6,7 +6,8 @@ import (
 )
 
 func TestListCmd(t *testing.T) {
-	if err := ListCmd(context.TODO()); err != nil {
+	cmd := &ListCmd{}
+	if err := cmd.Run(context.TODO(), []string{}); err != nil {
 		t.Errorf("ListCmd() error = %v", err)
 	}
 }
