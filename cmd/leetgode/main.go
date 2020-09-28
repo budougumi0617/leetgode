@@ -11,6 +11,11 @@ import (
 )
 
 func main() {
+	flag.Usage = func() {
+		if err := leetgode.ShowUsage(os.Stdout); err != nil {
+			panic(err)
+		}
+	}
 	flag.Parse()
 	sub := flag.Arg(0)
 	if len(sub) == 0 {
