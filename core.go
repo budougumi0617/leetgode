@@ -13,6 +13,7 @@ const (
 	GENERATE         = "generate"
 	TEST             = "test"
 	EXEC             = "exec"
+	HELP             = "help"
 )
 
 type Cmd interface {
@@ -28,6 +29,7 @@ var CmdMap = map[CmdName]Cmd{
 	GENERATE: &GenerateCmd{},
 	TEST:     &TestCmd{},
 	PICK:     &PickCmd{},
+	HELP:     &HelpCmd{},
 }
 
 func buildPath(id, slug string) string {

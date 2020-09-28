@@ -21,7 +21,7 @@ func (c *ListCmd) MaxArg() int {
 }
 
 func (c *ListCmd) Usage() string {
-	return "Generate the skeleton code with the test file by id"
+	return "List problems"
 }
 
 func (c *ListCmd) Run(ctx context.Context, _ []string) error {
