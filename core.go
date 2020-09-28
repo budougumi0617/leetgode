@@ -21,8 +21,12 @@ type Cmd interface {
 	Run(context.Context, []string) error
 }
 
-var cmdMap = map[CmdName]Cmd{
-	EXEC: &GenerateCmd{},
+var CmdMap = map[CmdName]Cmd{
+	EXEC:     &GenerateCmd{},
+	LIST:     &ListCmd{},
+	GENERATE: &GenerateCmd{},
+	TEST:     &TestCmd{},
+	PICK:     &PickCmd{},
 }
 
 func buildPath(id, slug string) string {

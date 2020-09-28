@@ -17,7 +17,7 @@ func (c *ExecCmd) MaxArg() int {
 }
 
 func (c *ExecCmd) Usage() string {
-	return "Generate the skeleton code with the test file by id"
+	return "Submit solution"
 }
 
 func (c *ExecCmd) Run(ctx context.Context, args []string) error {

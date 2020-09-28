@@ -17,7 +17,7 @@ func (c *TestCmd) MaxArg() int {
 }
 
 func (c *TestCmd) Usage() string {
-	return "submit codes and "
+	return "Test solution"
 }
 
 func (c *TestCmd) Run(ctx context.Context, args []string) error {

@@ -47,7 +47,7 @@ func (g *GenerateCmd) Usage() string {
 }
 
 func (g *GenerateCmd) Run(ctx context.Context, args []string) error {
-	id, err := strconv.Atoi(args[1])
+	id, err := strconv.Atoi(args[0])
 	if err != nil {
 		return err
 	}
