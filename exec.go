@@ -5,9 +5,26 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strconv"
 )
 
-func ExecCmd(ctx context.Context, id int) error {
+var _ Cmd = &ExecCmd{}
+
+type ExecCmd struct{}
+
+func (c *ExecCmd) MaxArg() int {
+	return 1
+}
+
+func (c *ExecCmd) Usage() string {
+	return "Generate the skeleton code with the test file by id"
+}
+
+func (c *ExecCmd) Run(ctx context.Context, args []string) error {
+	id, err := strconv.Atoi(args[0])
+	if err != nil {
+		return err
+	}
 	session := os.Getenv("LEETCODE_SESSION")
 	token := os.Getenv("LEETCODE_TOKEN")
 
