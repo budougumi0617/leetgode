@@ -28,28 +28,33 @@ export LEETCODE_TOKEN=${csrftoken}
 ## Usage
 
 ```
-leetgode -h
-Usage of leetgode:
-SUBCOMMANDS:
-    data    Manage Cache [aliases: d]
-    edit    Edit question by id [aliases: e]
-    exec    Submit solution [aliases: x]
-    list    List problems [aliases: l]
-    pick    Pick a problem [aliases: p]
-    stat    Show simple chart about submissions [aliases: s]
-    test    Edit question by id [aliases: t]
-    help    Prints this message or the help of the given subcommand(s)
+leetgode help
+Usage: leetgode is leetcode cli for gophers.
+
+SubCommands:
+ exec     Submit solution
+ generate Generate the skeleton code with the test file by id
+ help     Help shows usages
+ list     List problems
+ pick     Pick a problem by id
+ test     Test solution
 ```
 
 ## Install
 You can download binary from [release page](https://github.com/budougumi0617/leetgode/releases) and place it in $PATH directory.
 
+### go get
+```
+go get -u https://github.com/budougumi0617/leetgode/cmd/leetgode
+```
+
 ### macOS
-If you want to install on macOS, you can use Homebrew.
+~~If you want to install on macOS, you can use Homebrew.~~
 ```
 brew install budougumi0617/tap/leetgode
 ```
 
+now setting...
 
 ## Contribution
 1. Fork ([https://github.com/budougumi0617/leetgode/fork](https://github.com/budougumi0617/leetgode/fork))

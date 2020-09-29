@@ -33,6 +33,7 @@ var CmdMap = map[CmdName]Cmd{
 }
 
 func buildPath(id, slug string) string {
-	format := "tmp/%s.%s.go"
+	// TODO: changeable directory
+	format := "%s.%s.go"
 	return fmt.Sprintf(format, id, slug)
 }

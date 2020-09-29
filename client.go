@@ -137,8 +137,6 @@ query getQuestionDetail($titleSlug: String!) {
 	return &q, nil
 }
 
-// TODO: submitメソッドをつくる for exec
-
 // curl https://leetcode.com/api/problems/algorithms/
 func (lc *LeetCode) GetProblems(ctx context.Context) (*ProblemsResult, error) {
 	cli := http.Client{
