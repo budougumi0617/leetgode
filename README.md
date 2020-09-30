@@ -49,12 +49,10 @@ go get -u https://github.com/budougumi0617/leetgode/cmd/leetgode
 ```
 
 ### macOS
-~~If you want to install on macOS, you can use Homebrew.~~
+If you want to install on macOS, you can use Homebrew.
 ```
 brew install budougumi0617/tap/leetgode
 ```
-
-now setting...
 
 ## Contribution
 1. Fork ([https://github.com/budougumi0617/leetgode/fork](https://github.com/budougumi0617/leetgode/fork))
