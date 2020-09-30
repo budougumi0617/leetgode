@@ -8,7 +8,7 @@ before:
     #- go generate ./...
 builds:
   -
-    main: .
+    main: ./cmd/leetgode
     env:
       - CGO_ENABLED=0
 archives:
