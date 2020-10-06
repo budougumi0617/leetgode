@@ -60,7 +60,7 @@ func (c *TestCmd) Run(ctx context.Context, args []string) error {
 		if res.State == "SUCCESS" {
 			fmt.Printf(`
 test id: %s
-test name: %s
+problem title: %s
 result: %s
 `, q.QuestionID, q.Slug, res.StatusMsg)
 			break

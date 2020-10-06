@@ -276,13 +276,3 @@ func (lc *LeetCode) Submit(ctx context.Context, q *Question, ans string) (string
 	log.Printf("result %+v\n", res)
 	return strconv.Itoa(res.SubmissionID), nil
 }
-
-//SUBCOMMANDS:
-//data    Manage Cache [aliases: d]
-//edit    Edit question by id [aliases: e]
-//exec    Submit solution [aliases: x]
-//list    List problems [aliases: l]
-//pick    Pick a problem [aliases: p]
-//stat    Show simple chart about submissions [aliases: s]
-//test    Test question by id [aliases: t]
-//help    Prints this message or the help of the given subcommand(s)

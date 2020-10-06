@@ -60,8 +60,8 @@ func (c *ExecCmd) Run(ctx context.Context, args []string) error {
 		// FIXME: pretty print
 		if res.State == "SUCCESS" {
 			fmt.Printf(`
-test id: %s
-test name: %s
+executed id: %s
+problem title: %s
 result: %s
 `, q.QuestionID, q.Slug, res.StatusMsg)
 			break
