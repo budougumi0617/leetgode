@@ -1,4 +1,4 @@
-module github.com/budougumi/leetgode
+module github.com/budougumi0617/leetgode
 
 go 1.15
 

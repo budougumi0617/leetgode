@@ -8,7 +8,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/budougumi/leetgode"
+	"github.com/budougumi0617/leetgode"
 )
 
 func main() {
