@@ -12,7 +12,7 @@ import (
 )
 
 type LeetCode struct {
-	BaseURL        string
+	baseURL        string
 	gqlEndpoint    string
 	session, token string
 }
@@ -21,7 +21,7 @@ type LCOp func(*LeetCode) error
 
 func NewLeetCode(ops ...LCOp) (*LeetCode, error) {
 	lc := &LeetCode{
-		BaseURL:     "https://leetcode.com",
+		baseURL:     "https://leetcode.com",
 		gqlEndpoint: "https://leetcode.com/graphql",
 	}
 	for _, op := range ops {
@@ -142,7 +142,7 @@ func (lc *LeetCode) GetProblems(ctx context.Context) (*ProblemsResult, error) {
 	cli := http.Client{
 		Timeout: 3 * time.Second,
 	}
-	ep := lc.BaseURL + "/api/problems/algorithms/"
+	ep := lc.baseURL + "/api/problems/algorithms/"
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, ep, nil)
 	if err != nil {
 		return nil, err
@@ -192,7 +192,7 @@ func (lc *LeetCode) Test(ctx context.Context, q *Question, ans string) (string, 
 		log.Printf("failed Marshal %+v\n", err)
 		return "", err
 	}
-	surl := lc.BaseURL + fmt.Sprintf("/problems/%s/interpret_solution/", q.Slug)
+	surl := lc.baseURL + fmt.Sprintf("/problems/%s/interpret_solution/", q.Slug)
 	log.Printf("send to %q", surl)
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, surl, bytes.NewBuffer(b))
 	if err != nil {
@@ -217,7 +217,7 @@ func (lc *LeetCode) Test(ctx context.Context, q *Question, ans string) (string, 
 }
 
 func (lc *LeetCode) Check(ctx context.Context, q *Question, id string) (*CheckResult, error) {
-	curl := lc.BaseURL + fmt.Sprintf("/submissions/detail/%s/check/", id)
+	curl := lc.baseURL + fmt.Sprintf("/submissions/detail/%s/check/", id)
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, curl, nil)
 	if err != nil {
 		return nil, err
@@ -253,7 +253,7 @@ func (lc *LeetCode) Submit(ctx context.Context, q *Question, ans string) (string
 		log.Printf("failed Marshal %+v\n", err)
 		return "", err
 	}
-	surl := lc.BaseURL + fmt.Sprintf("/problems/%s/submit/", q.Slug)
+	surl := lc.baseURL + fmt.Sprintf("/problems/%s/submit/", q.Slug)
 	log.Printf("send to %q", surl)
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, surl, bytes.NewBuffer(b))
 	if err != nil {
