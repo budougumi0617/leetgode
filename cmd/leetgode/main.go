@@ -20,7 +20,10 @@ func main() {
 	flag.Parse()
 	sub := flag.Arg(0)
 	if len(sub) == 0 {
-		fmt.Printf("TODO: show help\n")
+		cmd := &leetgode.HelpCmd{}
+		if err := cmd.Run(context.Background(), []string{}); err !=nil{
+			fmt.Printf("help comamnd is faield: %v", err)
+		}
 		return
 	}
 	// TODO: set os.Stderr if set debug mode
