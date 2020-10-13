@@ -32,7 +32,7 @@ func run(stdout, stderr io.Writer, args []string) error {
 	f := flag.NewFlagSet(sub, flag.ContinueOnError)
 	f.Usage = func() {
 		if err := leetgode.ShowUsage(stdout); err != nil {
-			fmt.Fprintf(stderr, "failed show useage: %w\n", err)
+			fmt.Fprintf(stderr, "failed show useage: %v\n", err)
 		}
 	}
 	var v bool
