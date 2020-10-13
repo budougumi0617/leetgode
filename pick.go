@@ -3,6 +3,7 @@ package leetgode
 import (
 	"context"
 	"fmt"
+	"io"
 	"strconv"
 )
 
@@ -23,7 +24,7 @@ func (c *PickCmd) MaxArg() int {
 	return 1
 }
 
-func (c *PickCmd) Run(ctx context.Context, args []string) error {
+func (c *PickCmd) Run(ctx context.Context, out io.Writer, args []string) error {
 	cli, err := NewLeetCode()
 	if err != nil {
 		return err
@@ -38,8 +39,8 @@ func (c *PickCmd) Run(ctx context.Context, args []string) error {
 		return err
 	}
 
-	// FIXME: pretty print
-	fmt.Printf("result: %#v\n", q)
+	// FIXME: pretty print for HTML
+	fmt.Fprintf(out, "%s: %s\n%s\n%s", q.QuestionID, q.Slug, q.Referer, q.Content)
 
 	return nil
 }

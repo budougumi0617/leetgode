@@ -3,6 +3,7 @@ package leetgode
 import (
 	"context"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -25,7 +26,7 @@ func (c *TestCmd) Usage() string {
 	return "Test solution"
 }
 
-func (c *TestCmd) Run(ctx context.Context, args []string) error {
+func (c *TestCmd) Run(ctx context.Context, out io.Writer, args []string) error {
 	id, err := strconv.Atoi(args[0])
 	if err != nil {
 		return err
@@ -50,7 +51,7 @@ func (c *TestCmd) Run(ctx context.Context, args []string) error {
 	if err != nil {
 		return err
 	}
-	fmt.Print("now sending")
+	fmt.Fprint(out, "now sending")
 	for {
 		res, err := cli.Check(ctx, q, tr)
 		if err != nil {
@@ -58,14 +59,14 @@ func (c *TestCmd) Run(ctx context.Context, args []string) error {
 		}
 		// FIXME: pretty print
 		if res.State == "SUCCESS" {
-			fmt.Printf(`
+			fmt.Fprintf(out,`
 test id: %s
 problem title: %s
 result: %s
 `, q.QuestionID, q.Slug, res.StatusMsg)
 			break
 		} else {
-			fmt.Print(".")
+			fmt.Fprint(out, ".")
 		}
 		time.Sleep(1 * time.Second)
 	}
