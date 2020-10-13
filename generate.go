@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"strconv"
 	"text/template"
 
@@ -74,7 +75,7 @@ func (g *GenerateCmd) Run(ctx context.Context, out io.Writer, args []string) err
 	if c == nil {
 		return fmt.Errorf("not found the code for Go")
 	}
-	fmt.Printf("%s\n", fmt.Sprint(c.DefaultCode))
+	log.Printf("%s\n", fmt.Sprint(c.DefaultCode))
 	input := &Format{
 		Referer:        q.Referer,
 		Content:        q.Content,
@@ -90,11 +91,11 @@ func (g *GenerateCmd) Run(ctx context.Context, out io.Writer, args []string) err
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("%s", buf.String())
+	log.Printf("%s", buf.String())
 
 	// TODO: どうやってファイル保存とテストしやすさを分けようか？
 	path := buildPath(q.QuestionID, q.Slug)
-	fmt.Printf("save at %q\n", path)
+	fmt.Fprintf(out, "save at %q\n", path)
 	if err := ioutil.WriteFile(path, buf.Bytes(), 0644); err != nil {
 		return err
 	}
