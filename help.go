@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"os"
 	"sort"
 	"text/tabwriter"
 )
@@ -49,6 +48,6 @@ func ShowUsage(w io.Writer) error {
 	return tw.Flush()
 }
 
-func (c *HelpCmd) Run(ctx context.Context, args []string) error {
-	return ShowUsage(os.Stdout)
+func (c *HelpCmd) Run(ctx context.Context, out io.Writer, args []string) error {
+	return ShowUsage(out)
 }

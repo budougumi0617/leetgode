@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"strconv"
 	"text/template"
@@ -50,7 +51,7 @@ func (g *GenerateCmd) Usage() string {
 	return "Generate the skeleton code with the test file by id"
 }
 
-func (g *GenerateCmd) Run(ctx context.Context, args []string) error {
+func (g *GenerateCmd) Run(ctx context.Context, out io.Writer, args []string) error {
 	id, err := strconv.Atoi(args[0])
 	if err != nil {
 		return err

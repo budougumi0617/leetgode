@@ -22,7 +22,7 @@ func main() {
 func run(stdout, stderr io.Writer, args []string) error {
 	if len(args) < 2 {
 		cmd := &leetgode.HelpCmd{}
-		if err := cmd.Run(context.Background(), []string{}); err != nil {
+		if err := cmd.Run(context.Background(), stdout, []string{}); err != nil {
 			return fmt.Errorf("help command is failed: %w", err)
 		}
 		return nil
@@ -53,7 +53,7 @@ func run(stdout, stderr io.Writer, args []string) error {
 		if len(args) != cmd.MaxArg() {
 			return fmt.Errorf("%q command expects %d options, but %d options\n", cmd.Name(), cmd.MaxArg(), len(args))
 		}
-		if err := cmd.Run(context.Background(), args); err != nil {
+		if err := cmd.Run(context.Background(), stdout, args); err != nil {
 			return fmt.Errorf("%q command failed: %w", sub, err)
 		}
 	} else {

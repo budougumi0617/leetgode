@@ -3,6 +3,7 @@ package leetgode
 import (
 	"context"
 	"fmt"
+	"io"
 	"os"
 	"sort"
 	"text/tabwriter"
@@ -24,7 +25,7 @@ func (c *ListCmd) Usage() string {
 	return "List problems"
 }
 
-func (c *ListCmd) Run(ctx context.Context, _ []string) error {
+func (c *ListCmd) Run(ctx context.Context, out io.Writer, _ []string) error {
 	cli, err := NewLeetCode()
 	if err != nil {
 		return err

@@ -3,6 +3,7 @@ package leetgode
 import (
 	"context"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -26,7 +27,7 @@ func (c *ExecCmd) Usage() string {
 }
 
 // TODO: refactoring exec and test.
-func (c *ExecCmd) Run(ctx context.Context, args []string) error {
+func (c *ExecCmd) Run(ctx context.Context, out io.Writer, args []string) error {
 	id, err := strconv.Atoi(args[0])
 	if err != nil {
 		return err

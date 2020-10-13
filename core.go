@@ -3,6 +3,7 @@ package leetgode
 import (
 	"context"
 	"fmt"
+	"io"
 )
 
 type CmdName string
@@ -20,7 +21,7 @@ type Cmd interface {
 	Name() string
 	Usage() string
 	MaxArg() int
-	Run(context.Context, []string) error
+	Run(context.Context, io.Writer, []string) error
 }
 
 var CmdMap = map[CmdName]Cmd{

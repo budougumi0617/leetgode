@@ -3,6 +3,7 @@ package leetgode
 import (
 	"context"
 	"fmt"
+	"io"
 	"strconv"
 )
 
@@ -23,7 +24,7 @@ func (c *PickCmd) MaxArg() int {
 	return 1
 }
 
-func (c *PickCmd) Run(ctx context.Context, args []string) error {
+func (c *PickCmd) Run(ctx context.Context, out io.Writer, args []string) error {
 	cli, err := NewLeetCode()
 	if err != nil {
 		return err
