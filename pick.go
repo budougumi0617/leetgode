@@ -38,8 +38,8 @@ func (c *PickCmd) Run(ctx context.Context, args []string) error {
 		return err
 	}
 
-	// FIXME: pretty print
-	fmt.Printf("result: %#v\n", q)
+	// FIXME: pretty print for HTML
+	fmt.Fprintf(out, "%s: %s\n%s\n%s", q.QuestionID, q.Slug, q.Referer, q.Content)
 
 	return nil
 }
