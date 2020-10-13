@@ -13,31 +13,34 @@ import (
 )
 
 func main() {
-	os.Exit(run(os.Stdout, os.Stderr, os.Args))
+	if err := run(os.Stdout, os.Stderr, os.Args); err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(1)
+	}
 }
 
-func run(stdout, stderr io.Writer, args []string) int {
+func run(stdout, stderr io.Writer, args []string) error {
 	if len(args) < 2 {
 		cmd := &leetgode.HelpCmd{}
 		if err := cmd.Run(context.Background(), []string{}); err != nil {
-			fmt.Fprintf(stderr, "help comamnd is faield: %v", err)
+			return fmt.Errorf("help command is failed: %w", err)
 		}
-		return 1
+		return nil
 	}
 	sub := args[1]
+	// implement into each sub command if use different options by each sub command
 	f := flag.NewFlagSet(sub, flag.ContinueOnError)
 	f.Usage = func() {
 		if err := leetgode.ShowUsage(stdout); err != nil {
-			fmt.Fprintf(stderr, "failed show useage: %v\n", err)
+			fmt.Fprintf(stderr, "failed show useage: %w\n", err)
 		}
 	}
 	var v bool
 	f.BoolVar(&v, "v", false, "show debug print")
 	if err := f.Parse(args[2:]); err == flag.ErrHelp {
-		return 1
+		return err
 	} else if err != nil {
-		fmt.Fprintf(stderr, "%s with invalid args: %v\n", sub, err)
-		return 1
+		return fmt.Errorf("%q command with invalid args(%q): %w", sub, args[2:], err)
 	}
 
 	log.SetOutput(stderr)
@@ -48,16 +51,13 @@ func run(stdout, stderr io.Writer, args []string) int {
 	if cmd, ok := leetgode.CmdMap[leetgode.CmdName(sub)]; ok {
 		args := f.Args()
 		if len(args) != cmd.MaxArg() {
-			fmt.Fprintf(stderr, "%s expects %d options, but %d options\n", cmd.Name(), cmd.MaxArg(), len(args))
-			return 1
+			return fmt.Errorf("%q command expects %d options, but %d options\n", cmd.Name(), cmd.MaxArg(), len(args))
 		}
 		if err := cmd.Run(context.Background(), args); err != nil {
-			fmt.Fprintf(stderr, "main: err %v", err)
-			return 1
+			return fmt.Errorf("%q command failed: %w", sub, err)
 		}
 	} else {
-		fmt.Fprintf(stderr, "unknown command %q", sub)
-		return 1
+		return fmt.Errorf("unknown command %q", sub)
 	}
-	return 0
+	return nil
 }
