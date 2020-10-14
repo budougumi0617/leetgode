@@ -11,6 +11,8 @@ import (
 	"time"
 )
 
+var PaidOnlyError = fmt.Errorf("not support premium question for now")
+
 type LeetCode struct {
 	BaseURL        string
 	session, token string
@@ -70,6 +72,9 @@ func (lc *LeetCode) GetQuestionByFrontendID(ctx context.Context, id int) (*Quest
 	}
 	if pair == nil {
 		return nil, fmt.Errorf("cannot find problem")
+	}
+	if pair.PaidOnly {
+		return nil, PaidOnlyError
 	}
 
 	q, err := lc.GetQuestion(ctx, pair.Stat)

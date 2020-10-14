@@ -33,8 +33,8 @@ var CmdMap = map[CmdName]Cmd{
 	HELP:     &HelpCmd{},
 }
 
-func buildPath(id, slug string) string {
+func buildPath(id int, slug string) string {
 	// TODO: changeable directory
-	format := "%s.%s.go"
+	format := "%d.%s.go"
 	return fmt.Sprintf(format, id, slug)
 }
