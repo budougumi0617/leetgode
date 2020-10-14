@@ -43,7 +43,7 @@ func (c *ExecCmd) Run(ctx context.Context, out io.Writer, args []string) error {
 	if err != nil {
 		return err
 	}
-	fp := buildPath(q.QuestionID, q.Slug)
+	fp := buildPath(q.FrontendQuestionID, q.Slug)
 	code, err := ioutil.ReadFile(fp)
 	if err != nil {
 		return err

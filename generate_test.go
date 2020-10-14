@@ -12,7 +12,7 @@ func TestGenerateCmd(t *testing.T) {
 		name string
 		args []string
 	}{
-		{name: "SuccessGenerateFiles", args: []string{"1"}},
+		{name: "SuccessGenerateFiles", args: []string{"2"}},
 	}
 	for _, tt := range tests {
 		tt := tt

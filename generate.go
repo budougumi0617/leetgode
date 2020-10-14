@@ -94,7 +94,7 @@ func (g *GenerateCmd) Run(ctx context.Context, out io.Writer, args []string) err
 	log.Printf("%s", buf.String())
 
 	// TODO: どうやってファイル保存とテストしやすさを分けようか？
-	path := buildPath(q.QuestionID, q.Slug)
+	path := buildPath(q.FrontendQuestionID, q.Slug)
 	fmt.Fprintf(out, "save at %q\n", path)
 	if err := ioutil.WriteFile(path, buf.Bytes(), 0644); err != nil {
 		return err
