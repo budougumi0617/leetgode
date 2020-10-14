@@ -62,7 +62,7 @@ func (g *GenerateCmd) Run(ctx context.Context, out io.Writer, args []string) err
 	if err != nil {
 		return err
 	}
-	q, err := cli.GetQuestionByID(ctx, id)
+	q, err := cli.GetQuestionByFrontendID(ctx, id)
 	if err != nil {
 		return err
 	}

@@ -11,11 +11,13 @@ func TestLeetCode_GetQuestion(t *testing.T) {
 	tests := [...]struct {
 		name      string
 		titleSlug string
+		id        int
 		want      *Question
 	}{
 		{
 			name:      "GetQuestionSuccess",
 			titleSlug: "add-two-numbers",
+			id:        2,
 			want: &Question{
 				Referer:    "https://leetcode.com/problems/add-two-numbers/description/",
 				QuestionID: "2",
@@ -28,7 +30,10 @@ func TestLeetCode_GetQuestion(t *testing.T) {
 			lc := &LeetCode{
 				BaseURL: "https://leetcode.com",
 			}
-			got, err := lc.GetQuestion(context.TODO(), tt.titleSlug)
+			got, err := lc.GetQuestion(context.TODO(), Stat{
+				QuestionTitleSlug:  tt.titleSlug,
+				FrontendQuestionID: tt.id,
+			})
 			if err != nil {
 				t.Fatalf("GetQuestion faield: %v", err)
 			}
@@ -85,12 +90,12 @@ func TestLeetCode_GetQuestionByID(t *testing.T) {
 			lc := &LeetCode{
 				BaseURL: "https://leetcode.com",
 			}
-			got, err := lc.GetQuestionByID(context.TODO(), tt.id)
+			got, err := lc.GetQuestionByFrontendID(context.TODO(), tt.id)
 			if err != nil {
-				t.Fatalf("GetQuestionByID faield: %v", err)
+				t.Fatalf("GetQuestionByFrontendID faield: %v", err)
 			}
 			if diff := cmp.Diff(got.Referer, tt.want.Referer); diff != "" {
-				t.Errorf("GetQuestionByID: there is diff (-got +want)\n%s", diff)
+				t.Errorf("GetQuestionByFrontendID: there is diff (-got +want)\n%s", diff)
 			}
 		})
 	}
