@@ -13,7 +13,6 @@ import (
 
 type LeetCode struct {
 	BaseURL        string
-	gqlEndpoint    string
 	session, token string
 }
 
@@ -21,8 +20,7 @@ type LCOp func(*LeetCode) error
 
 func NewLeetCode(ops ...LCOp) (*LeetCode, error) {
 	lc := &LeetCode{
-		BaseURL:     "https://leetcode.com",
-		gqlEndpoint: "https://leetcode.com/graphql",
+		BaseURL: "https://leetcode.com",
 	}
 	for _, op := range ops {
 		if err := op(lc); err != nil {
@@ -59,14 +57,14 @@ type GetQuestionResponse struct {
 	Data GetQuestionResponseData `json:"data"`
 }
 
-func (lc *LeetCode) GetQuestionByID(ctx context.Context, id int) (*Question, error) {
+func (lc *LeetCode) GetQuestionByFrontendID(ctx context.Context, id int) (*Question, error) {
 	ss, err := lc.GetStats(ctx)
 	if err != nil {
 		return nil, err
 	}
 	var pair *StatStatusPair
 	for _, p := range ss {
-		if p.Stat.QuestionID == id {
+		if p.Stat.FrontendQuestionID == id {
 			pair = p
 		}
 	}
@@ -74,14 +72,14 @@ func (lc *LeetCode) GetQuestionByID(ctx context.Context, id int) (*Question, err
 		return nil, fmt.Errorf("cannot find problem")
 	}
 
-	q, err := lc.GetQuestion(ctx, pair.Stat.QuestionTitleSlug)
+	q, err := lc.GetQuestion(ctx, pair.Stat)
 	if err != nil {
 		return nil, err
 	}
 	return q, nil
 }
 
-func (lc *LeetCode) GetQuestion(ctx context.Context, titleSlug string) (*Question, error) {
+func (lc *LeetCode) GetQuestion(ctx context.Context, stat Stat) (*Question, error) {
 	query := `
 query getQuestionDetail($titleSlug: String!) {
   isCurrentUserAuthenticated
@@ -99,7 +97,7 @@ query getQuestionDetail($titleSlug: String!) {
 	body := GetQuestionBody{
 		Query: query,
 		Variables: GetQuestionVariables{
-			TitleSlug: titleSlug,
+			TitleSlug: stat.QuestionTitleSlug,
 		},
 		OperationName: "getQuestionDetail",
 	}
@@ -107,11 +105,12 @@ query getQuestionDetail($titleSlug: String!) {
 	if err != nil {
 		return nil, err
 	}
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, lc.gqlEndpoint, bytes.NewBuffer(jbody))
+	gqlURL := lc.BaseURL + "/graphql"
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, gqlURL, bytes.NewBuffer(jbody))
 	if err != nil {
 		return nil, err
 	}
-	referer := fmt.Sprintf("https://leetcode.com/problems/%s/description/", titleSlug)
+	referer := fmt.Sprintf("https://leetcode.com/problems/%s/description/", stat.QuestionTitleSlug)
 	req.Header.Set("Referer", referer)
 	// req.Header.Set("x-csrftoken", guestToken)
 	req.Header.Set("Content-Type", "application/json")
@@ -132,7 +131,8 @@ query getQuestionDetail($titleSlug: String!) {
 	if err := json.NewDecoder(res.Body).Decode(&result); err != nil {
 		return nil, err
 	}
-	q.Slug = titleSlug
+	q.FrontendQuestionID = stat.FrontendQuestionID
+	q.Slug = stat.QuestionTitleSlug
 	q.Referer = referer
 	return &q, nil
 }

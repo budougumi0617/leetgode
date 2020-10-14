@@ -35,12 +35,16 @@ func (c *ListCmd) Run(ctx context.Context, out io.Writer, _ []string) error {
 	if err != nil {
 		return err
 	}
-	sort.Slice(pairs, func(i, j int) bool { return pairs[i].Stat.QuestionID < pairs[j].Stat.QuestionID })
+	sort.Slice(pairs, func(i, j int) bool { return pairs[i].Stat.FrontendQuestionID < pairs[j].Stat.FrontendQuestionID })
 
 	w := tabwriter.NewWriter(os.Stdout, 0, 4, 1, ' ', 0)
 
 	for _, pair := range pairs {
-		fmt.Fprintf(w, "%4d\t%s\t%s\n", pair.Stat.QuestionID, pair.Stat.QuestionTitleSlug, pair.Difficulty.Level)
+		locked := ""
+		if pair.PaidOnly {
+			locked = "🔒"
+		}
+		fmt.Fprintf(w, "%4d\t%s\t%s\t%s\n", pair.Stat.FrontendQuestionID, pair.Stat.QuestionTitle, pair.Difficulty.Level, locked)
 	}
 
 	return w.Flush()

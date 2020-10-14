@@ -39,7 +39,7 @@ func (c *ExecCmd) Run(ctx context.Context, out io.Writer, args []string) error {
 	if err != nil {
 		return err
 	}
-	q, err := cli.GetQuestionByID(ctx, id)
+	q, err := cli.GetQuestionByFrontendID(ctx, id)
 	if err != nil {
 		return err
 	}

@@ -15,16 +15,17 @@ type QdrData struct {
 }
 
 type Question struct {
-	Slug              string      `json:"-"`
-	Referer           string      `json:"-"`
-	QuestionID        string      `json:"questionId"`
-	Content           string      `json:"content"`
-	Stats             string      `json:"stats"`
-	CodeDefinition    Codes       `json:"codeDefinition"`
-	SampleTestCase    string      `json:"sampleTestCase"`
-	EnableRunCode     bool        `json:"enableRunCode"`
-	MetaData          string      `json:"metaData"`
-	TranslatedContent interface{} `json:"translatedContent"`
+	Slug               string      `json:"-"`
+	Referer            string      `json:"-"`
+	FrontendQuestionID int         `json:"-"`
+	QuestionID         string      `json:"questionId"`
+	Content            string      `json:"content"`
+	Stats              string      `json:"stats"`
+	CodeDefinition     Codes       `json:"codeDefinition"`
+	SampleTestCase     string      `json:"sampleTestCase"`
+	EnableRunCode      bool        `json:"enableRunCode"`
+	MetaData           string      `json:"metaData"`
+	TranslatedContent  interface{} `json:"translatedContent"`
 }
 
 // Code the struct of leetcode codes.
