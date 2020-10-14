@@ -26,8 +26,7 @@ func TestLeetCode_GetQuestion(t *testing.T) {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			lc := &LeetCode{
-				BaseURL:     "https://leetcode.com",
-				gqlEndpoint: "https://leetcode.com/graphql",
+				BaseURL: "https://leetcode.com",
 			}
 			got, err := lc.GetQuestion(context.TODO(), tt.titleSlug)
 			if err != nil {
@@ -51,8 +50,7 @@ func TestLeetCode_GetProblems(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			lc := &LeetCode{
-				BaseURL:     "https://leetcode.com",
-				gqlEndpoint: "https://leetcode.com/graphql",
+				BaseURL: "https://leetcode.com",
 			}
 			got, err := lc.GetProblems(context.TODO())
 			if err != nil {
@@ -85,8 +83,7 @@ func TestLeetCode_GetQuestionByID(t *testing.T) {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			lc := &LeetCode{
-				BaseURL:     "https://leetcode.com",
-				gqlEndpoint: "https://leetcode.com/graphql",
+				BaseURL: "https://leetcode.com",
 			}
 			got, err := lc.GetQuestionByID(context.TODO(), tt.id)
 			if err != nil {
@@ -129,10 +126,9 @@ func TestTest(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 			lc := &LeetCode{
-				BaseURL:     "https://leetcode.com",
-				gqlEndpoint: "https://leetcode.com/graphql",
-				session:     "",
-				token:       "",
+				BaseURL: "https://leetcode.com",
+				session: "",
+				token:   "",
 			}
 			got, err := lc.Test(context.TODO(), tt.args.q, tt.args.ans)
 			if err != nil {

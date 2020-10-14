@@ -13,7 +13,6 @@ import (
 
 type LeetCode struct {
 	BaseURL        string
-	gqlEndpoint    string
 	session, token string
 }
 
@@ -21,8 +20,7 @@ type LCOp func(*LeetCode) error
 
 func NewLeetCode(ops ...LCOp) (*LeetCode, error) {
 	lc := &LeetCode{
-		BaseURL:     "https://leetcode.com",
-		gqlEndpoint: "https://leetcode.com/graphql",
+		BaseURL: "https://leetcode.com",
 	}
 	for _, op := range ops {
 		if err := op(lc); err != nil {
@@ -107,7 +105,8 @@ query getQuestionDetail($titleSlug: String!) {
 	if err != nil {
 		return nil, err
 	}
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, lc.gqlEndpoint, bytes.NewBuffer(jbody))
+	gqlURL := lc.BaseURL + "/graphql"
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, gqlURL, bytes.NewBuffer(jbody))
 	if err != nil {
 		return nil, err
 	}
