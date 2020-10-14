@@ -24,3 +24,22 @@ func TestGenerateCmd(t *testing.T) {
 		})
 	}
 }
+
+func TestGenerateCmd_Error(t *testing.T) {
+	tests := [...]struct {
+		name string
+		args []string
+		want error
+	}{
+		{name: "FailedPaidOnlyProblem", args: []string{"1602"}, want: PaidOnlyError},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			cmd := &GenerateCmd{}
+			if err := cmd.Run(context.TODO(), ioutil.Discard, tt.args); err != tt.want {
+				t.Errorf("GenerateCmd() error = %v", err)
+			}
+		})
+	}
+}
